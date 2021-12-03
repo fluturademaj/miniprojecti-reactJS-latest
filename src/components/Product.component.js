@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import ProductDataServices from '../services/Products.services'
 
 class ProductComponent extends Component {
 
@@ -9,6 +10,9 @@ class ProductComponent extends Component {
         }
     }
     componentDidMount() {
+        ProductDataServices.getProducts().then((res )=>{
+            this.setState({products: res.data})
+        })
 
     }
 
