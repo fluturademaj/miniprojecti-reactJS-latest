@@ -9,10 +9,11 @@ class ProductComponent extends Component {
             products: []
         }
     }
+
     componentDidMount() {
         ProductDataServices.getProducts().then((res )=>{
-            this.setState({products: res.data})
-        })
+            this.setState({products: res.data});
+        });
 
     }
 
@@ -20,11 +21,11 @@ class ProductComponent extends Component {
     render(){
         return(
             <div>
-                <h2 className="text-center"> Products List</h2>
+                <h2 className="text-center">Products List</h2>
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         <thead>
-                        <tr>
+                            <tr>
                             <th>Identification</th>
                             <th>Label</th>
                             <th>Description</th>
@@ -32,22 +33,23 @@ class ProductComponent extends Component {
                         </tr>
                         </thead>
                         <tbody>
-
-                            <tr>
-                                <td>12345</td>
-                                <td>Emri i produktit</td>
-                                <td>Pershkrimi i produktit</td>
-                                <td>123 EUR</td>
-                            </tr>
-
+                        {
+                            this.state.products.map(
+                                product =>
+                                    <tr key={product.id}>
+                                        <td>{product.id}</td>
+                                        <td>{product.label}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.price}</td>
+                                    </tr>
+                            )
+                        }
                         </tbody>
                     </table>
-
-
                 </div>
 
             </div>
         );
     }
 }
-export default ProductComponent
+export default ProductComponent;
