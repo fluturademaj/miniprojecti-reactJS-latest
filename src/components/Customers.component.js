@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Swal from "sweetalert2";
+import CostumerDataService from "../services/Customers.services";
 
 class CustomersComponent extends Component {
     constructor(props) {
@@ -12,6 +13,11 @@ class CustomersComponent extends Component {
     }
 
     componentDidMount() {
+        CostumerDataService.getCustomer().then((res )=>{
+
+            this.setState({customers: res.data});
+        });
+
     }
 
     addCustomer(){
@@ -35,20 +41,11 @@ class CustomersComponent extends Component {
     render() {
         return (
             <div>
-                <h2 className="text-center">Customers List</h2>
-                <div className="d-flex justify-content-between">
-                    <button className="btn btn-success" onClick={this.addCustomer}>
-                        Add Customer
-                    </button>
-                    <input
-                        className="w-25"
-                        type="text"
-                    />
-                </div>
+                <h2 className="text-center">Customer List</h2>
 
-            <div className="row">
-                <table className="table table-striped table-bordered">
-                    <thead>
+                <div className="row">
+                    <table className="table table-striped table-bordered">
+                        <thead>
                         <tr>
                             <th>First Name</th>
                             <th>Last Name</th>
@@ -57,29 +54,31 @@ class CustomersComponent extends Component {
                             <th>Category</th>
                             <th>Actions</th>
                         </tr>
-                    </thead>
-                    <tbody>
-
-                            <tr>
-                            <td>Filan</td>
-                            <td>Fisteku</td>
-                            <td>Software Engineer</td>
-                            <td>filan.fisteku@gmail.com</td>
-                            <td>NEW CUSTOMER</td>
-                            <td>
-                                <button
-
-                                className="btn btn-danger"
-                                >
-                                Delete
-                                </button>
-                            </td>
+                        </thead>
+                        <tbody>
+                        {this.state.customers.map((customer) => (
+                            <tr key={customer.id}>
+                                <td>{customer.firstName}</td>
+                                <td>{customer.lastName}</td>
+                                <td>{customer.jobTitle}</td>
+                                <td>{customer.emailAddress}</td>
+                                <td>{customer.category}</td>
+                                <td>
+                                    <button
+                                        onClick={() => this.deleteCustomer(customer.id)}
+                                        className="btn btn-danger"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
                             </tr>
+                        ))}
 
-                    </tbody>
-                </table>
-        </div>
-      </div>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
     );
   }
 }
